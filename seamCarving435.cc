@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
      // the numner of horizontal seams to be removed
       int horizSeamsInt = atoi(argv[3]);
      //make 'imageFile' the first argument inputted from command line
-      std::ifstream imageFile(imageFileName);
+      std::ifstream imageFile;
       std::string p2;
       imageFile.open(imageFileName);
       std::getline(imageFile, p2);
@@ -49,10 +49,6 @@ int main(int argc, char *argv[])
       std::stringstream max(maxValStr);
       max >> maxValue;
 
-      std::cout << xWidth << " " << yHeight;
-
-
-      std::cout << xWidth << " " << yHeight << " " << maxValue;
       int **image = (int **)malloc(yHeight * sizeof(int*));
       int **energy = (int **)malloc(xWidth * sizeof(int*));
       int **cumulativeHorizontal = (int **)malloc(yHeight * sizeof(int*));
@@ -65,15 +61,16 @@ int main(int argc, char *argv[])
       	cumulativeHorizontal[i] = (int*)malloc(xWidth * sizeof(int));
       	cumulativeVertical[i] = (int*)malloc(xWidth * sizeof(int));
       }
-
+      std::cout << "hello";
       for (int x = 0; x < yHeight; ++x)
       {
       	  for (int y = 0; y < xWidth; ++y)
       	  {
       	  	  imageFile >> image[x][y];
+
       	  }
+
       }
-      
 	  for(int i = 0; i < vertSeamsInt; ++i)
 	  {
 	  	  for(int x = 0; x < yHeight; ++x)
@@ -93,11 +90,13 @@ int main(int argc, char *argv[])
 	  	  	  	  	  else 
 	  	  	  	  	  {
 	  	  	  	  	  	  energy[x][y] = abs(image[x][y] - image[x+1][y]) + abs(image[x][y]-image[x][y-1] + abs(image[x][y]-image[x][y+1]));
-
+	  	  	  	  	  	  
 	  	  	  	  	  }
+	  	  	  	  	  
 	  	  	  	  }
 	  	  	  	  else if(x == yHeight - 1)
 	  	  	  	  {
+	  	  	  	  
 	  	  	  	  	if(y == 0)
 	  	  	  	  	{
 	  	  	  	  		energy[x][y] = abs(image[x][y] - image[x-1][y]) + abs(image[x][y] - image[x][y+1]);
@@ -113,27 +112,30 @@ int main(int argc, char *argv[])
 	  	  	  	  }
 	  	  	  	  else if(y == 0)
 	  	  	  	  {
+	  	  	  	  
 	  	  	  	  	  energy[x][y] = abs(image[x][y] - image[x][y+1]) + abs(image[x][y] - image[x+1][y]) + abs(image[x][y] - image[x-1][y]);
 
 	  	  	  	  }
-	  	  	  	   else if (y == xWidth-1)
-	  	  	  	   {
-	  	  	  	   	  energy[x][y] = abs(image[x][y] - image[x][y-1]) + abs(image[x][y] - image[x+1][y]) + abs(image[x][y] - image[x-1][y]);
-	  	  	  	   }
+	  	  	  	  else if (y == xWidth-1)
+	  	  	  	  {
+	  	  	  	  	  energy[x][y] = abs(image[x][y] - image[x][y-1]) + abs(image[x][y] - image[x+1][y]) + abs(image[x][y] - image[x-1][y]);
+	  	  	  	  }
 	  	  	  	   else
-	  	  	  	   {
+	  	  	      {
 	  	  	  	   	  energy[x][y] = abs(image[x][y] - image[x][y+1]) + abs(image[x][y] - image[x][y-1]) + abs(image[x][y] - image[x+1][y]) + abs(image[x][y] - image[x-1][y]);
-	  	  	  	   }
+	  	  	 	  
+	  	  	 	  }
+	  	  	 	 
 	  	  	  }
-	  	  	  
+	  	  std::cout << "out again";	  
 	  	  }
-	  	  std::cout << xWidth;
-	  	  /*
+	  	  std::cout << "hello";
+	  	  
 	  	  for(int x = 0; x < xWidth; x++)
 	  	  {
 	  	  	  cumulativeVertical[0][x] = energy[0][x];
 	  	  }
-	  	  /*
+	  	  
 	  	  for(int x = 1; x < yHeight; x++)
 	  	  {
 	  	  	  for(int y = 0; y < xWidth; ++y)
@@ -152,7 +154,7 @@ int main(int argc, char *argv[])
 	  	  	      }
 	  	  	  }
 	  	  }
-/*
+
 	  	  int previousVal = 0, minVal = cumulativeVertical[yHeight-1][0];
 	  	  Point tmpPoint;
 	  	  std::vector<Point> tmpVector;
@@ -236,9 +238,9 @@ int main(int argc, char *argv[])
 	  	  delete tmpVal;
 
 	  	  xWidth--;
-*/
+
 	   } 
-	   /*
+	   
 //===========horizontal seam detection and deletion
 	   for(int x = 0; x < horizSeamsInt; x++)
 	   {
@@ -401,7 +403,7 @@ int main(int argc, char *argv[])
 	  	  delete tmp2;
 
 	  	  yHeight--;
-		}	*/
+		}	
 
 	  size_t filename_ = imageFileName.find_last_of(".");
       std::string rawFilename_ = imageFileName.substr(0, filename_);
@@ -424,6 +426,7 @@ int main(int argc, char *argv[])
               finalFile << std::endl;
           }
       }
+
 
 	}
 }
